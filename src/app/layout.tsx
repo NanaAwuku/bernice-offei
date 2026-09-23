@@ -45,9 +45,16 @@ export const viewport: Viewport = {
   themeColor: "#faf7f2",
 };
 
+// If a page of this site loads inside our own donate popup (the checkout's
+// post-payment redirect), move the whole tab there before anything renders.
+const breakOutOfCheckoutFrame = `try{if(window.top!==window.self&&window.top.location.origin===location.origin){window.top.location.assign(location.href)}}catch(e){}`;
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${serif.variable} ${sans.variable} h-full antialiased`}>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: breakOutOfCheckoutFrame }} />
+      </head>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );

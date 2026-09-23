@@ -70,7 +70,21 @@ export default function DonateButton({ className = "" }: { className?: string })
             src={CHECKOUT_URL}
             title="Donation checkout"
             allow="payment"
-            onLoad={() => setLoaded(true)}
+            onLoad={(e) => {
+              setLoaded(true);
+              // After payment the checkout redirects the frame back to this site.
+              // Reading the frame's location only succeeds once it is same-origin,
+              // so that's our signal to close and follow the redirect at the top level.
+              let href: string | undefined;
+              try {
+                href = e.currentTarget.contentWindow?.location.href;
+              } catch {
+                return; // Still on the (cross-origin) checkout.
+              }
+              if (!href || href === "about:blank") return;
+              closeCheckout();
+              window.location.assign(href);
+            }}
             // Pull the frame up to trim the checkout page's blank top padding.
             className="relative -mt-10 block h-[calc(100%+2.5rem)] w-full border-0"
           />
