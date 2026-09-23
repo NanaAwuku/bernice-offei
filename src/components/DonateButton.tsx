@@ -24,9 +24,10 @@ export default function DonateButton({ className = "" }: { className?: string })
   }
 
   // When a payment finishes, the checkout redirects its frame to the merchant's
-  // own site. Our CSP (next.config.ts) only lets the frame show the checkout, so
-  // that redirect is blocked and reported here: close the popup and send the
-  // donor to this site instead of the merchant's redirect URL.
+  // configured success/failure URL. Our CSP (next.config.ts) only lets the frame
+  // show the checkout, so that redirect is blocked and reported here. We close the
+  // popup and follow it in the full tab if it points at this site (e.g. the
+  // success URL set to /thank-you); any other site is replaced with this page.
   useEffect(() => {
     if (!open) return;
     function onViolation(e: SecurityPolicyViolationEvent) {
@@ -34,7 +35,11 @@ export default function DonateButton({ className = "" }: { className?: string })
       dialogRef.current?.close();
       setOpen(false);
       document.body.style.overflow = "";
-      window.location.assign(window.location.href);
+      // Browsers only report the full blocked URL for same-origin targets.
+      const target = e.blockedURI.startsWith(`${window.location.origin}/`)
+        ? e.blockedURI
+        : window.location.href;
+      window.location.assign(target);
     }
     document.addEventListener("securitypolicyviolation", onViolation);
     return () => document.removeEventListener("securitypolicyviolation", onViolation);

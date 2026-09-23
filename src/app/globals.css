@@ -12,6 +12,12 @@
   --accent: #8a6a4a;
   --accent-strong: #6e5236;
   --line: #e7dfd4;
+
+  /* Thank-you page palette */
+  --plum: #3b2641;
+  --plum-muted: #5e4d63;
+  --lavender: #e9e0ec;
+  --lavender-soft: #f6f1f6;
 }
 
 @theme inline {
@@ -22,6 +28,10 @@
   --color-accent: var(--accent);
   --color-accent-strong: var(--accent-strong);
   --color-line: var(--line);
+  --color-plum: var(--plum);
+  --color-plum-muted: var(--plum-muted);
+  --color-lavender: var(--lavender);
+  --color-lavender-soft: var(--lavender-soft);
   --font-sans: var(--font-sans);
   --font-serif: var(--font-serif);
 }
