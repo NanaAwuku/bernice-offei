@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const CHECKOUT_URL = "https://checkout.itcsrvc.com/transflow-checkout/bernice-offei";
+const CHECKOUT_URL = "https://checkoutuat.itcsrvc.com/transflow-checkout/bernice-offei";
 
 export default function DonateButton({ className = "" }: { className?: string }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
