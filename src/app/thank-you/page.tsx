@@ -92,7 +92,7 @@ export default function ThankYou() {
         </section>
 
         <Link
-          href="/"
+          href="https://www.forevermissed.com/bernice-offei/about"
           className="mt-14 inline-flex items-center gap-3 rounded-full bg-plum px-10 py-4 text-sm font-medium tracking-[0.2em] text-white uppercase shadow-md transition hover:bg-plum/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-plum"
         >
           Return to memorial
