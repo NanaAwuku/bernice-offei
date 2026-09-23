@@ -29,9 +29,9 @@ export default function DonateButton({ className = "" }: { className?: string })
       <button
         type="button"
         onClick={openCheckout}
-        className={`inline-flex items-center justify-center rounded-full bg-accent px-8 py-3.5 text-sm font-medium tracking-wide text-white uppercase shadow-sm transition hover:bg-accent-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${className}`}
+        className={`inline-flex items-center justify-center rounded-full bg-accent px-9 py-4 text-lg font-medium text-white shadow-sm transition hover:bg-accent-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${className}`}
       >
-        Donate now
+        Make a donation
       </button>
 
       <dialog

@@ -23,6 +23,18 @@ export default function Home() {
         <p className="mx-auto mt-8 max-w-lg font-serif text-xl leading-relaxed text-muted italic">
           &ldquo;Let the memory of our sister, mother and wife, Bernice, be with us forever.&rdquo;
         </p>
+        <div className="mx-auto mt-12 h-px w-12 bg-accent" />
+        <h2 className="mt-10 font-serif text-4xl font-medium">Expressions of sympathy</h2>
+        <div className="mx-auto mt-6 max-w-2xl space-y-5 text-lg leading-relaxed font-medium text-muted">
+          <p>
+            We are grateful for the prayers, messages and memories shared in honour of Bernice.
+            Your love and presence mean so much to the family.
+          </p>
+          <p>
+            For those who have asked about making a personal donation, the option is available
+            below.
+          </p>
+        </div>
         <DonateButton className="mt-10" />
       </div>
     </main>
