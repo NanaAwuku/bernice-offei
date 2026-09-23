@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+/* Short viewports (small laptops, phones with browser chrome) tighten the hero. */
+@custom-variant short (@media (max-height: 700px));
+@custom-variant tiny (@media (max-height: 600px) and (max-width: 1023px));
+
 :root {
   --background: #faf7f2;
   --surface: #ffffff;
