@@ -29,7 +29,6 @@ export default async function Image() {
           color: "#2b2420",
         }}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={`data:image/jpeg;base64,${portrait}`}
           alt=""
