@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const CHECKOUT_URL = "https://checkoutuat.itcsrvc.com/transflow-checkout/lic";
 
@@ -23,6 +23,23 @@ export default function DonateButton({ className = "" }: { className?: string })
     setOpen(false);
     document.body.style.overflow = "";
   }
+
+  // When a payment finishes, the checkout redirects its frame to the merchant's
+  // own site. Our CSP (next.config.ts) only lets the frame show the checkout, so
+  // that redirect is blocked and reported here: close the popup and send the
+  // donor to this site instead of the merchant's redirect URL.
+  useEffect(() => {
+    if (!open) return;
+    function onViolation(e: SecurityPolicyViolationEvent) {
+      if (!e.effectiveDirective.startsWith("frame-src")) return;
+      dialogRef.current?.close();
+      setOpen(false);
+      document.body.style.overflow = "";
+      window.location.assign(window.location.href);
+    }
+    document.addEventListener("securitypolicyviolation", onViolation);
+    return () => document.removeEventListener("securitypolicyviolation", onViolation);
+  }, [open]);
 
   return (
     <>
