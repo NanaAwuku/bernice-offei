@@ -5,19 +5,20 @@
 @custom-variant tiny (@media (max-height: 600px) and (max-width: 1023px));
 
 :root {
-  --background: #faf7f2;
-  --surface: #ffffff;
-  --foreground: #2b2420;
-  --muted: #6f625a;
-  --accent: #8a6a4a;
-  --accent-strong: #6e5236;
-  --line: #e7dfd4;
-
-  /* Thank-you page palette */
+  /* Plum & lavender palette, shared by every page. */
   --plum: #3b2641;
+  --plum-strong: #2b1a30;
   --plum-muted: #5e4d63;
   --lavender: #e9e0ec;
   --lavender-soft: #f6f1f6;
+
+  --background: #faf7f2;
+  --surface: #ffffff;
+  --foreground: var(--plum);
+  --muted: var(--plum-muted);
+  --accent: var(--plum);
+  --accent-strong: var(--plum-strong);
+  --line: var(--lavender);
 }
 
 @theme inline {
@@ -37,11 +38,11 @@
 }
 
 body {
-  background: var(--background);
+  background: linear-gradient(to bottom, var(--lavender-soft), var(--background), var(--lavender));
   color: var(--foreground);
   font-family: var(--font-sans), system-ui, sans-serif;
 }
 
 dialog::backdrop {
-  background: rgb(20 15 12 / 0.7);
+  background: rgb(30 18 34 / 0.7);
 }
