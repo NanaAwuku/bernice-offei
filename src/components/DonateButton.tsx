@@ -7,9 +7,11 @@ export default function DonateButton({ className = "" }: { className?: string })
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [open, setOpen] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  const [redirecting, setRedirecting] = useState(false);
 
   function openCheckout() {
     setLoaded(false);
+    setRedirecting(false);
     setOpen(true);
     dialogRef.current?.showModal();
     document.body.style.overflow = "hidden";
@@ -20,26 +22,38 @@ export default function DonateButton({ className = "" }: { className?: string })
   function closeCheckout() {
     dialogRef.current?.close();
     setOpen(false);
+    setRedirecting(false);
     document.body.style.overflow = "";
   }
+
+  // Coming back with the Back button can restore this page from the browser's
+  // cache exactly as it was left (popup showing "Redirecting…"), so reset it.
+  useEffect(() => {
+    function onPageShow(e: PageTransitionEvent) {
+      if (!e.persisted) return;
+      dialogRef.current?.close();
+      setOpen(false);
+      setRedirecting(false);
+      document.body.style.overflow = "";
+    }
+    window.addEventListener("pageshow", onPageShow);
+    return () => window.removeEventListener("pageshow", onPageShow);
+  }, []);
 
   // When a payment finishes, the checkout redirects its frame to the success or
   // failure URL configured in the backend. Our CSP (next.config.ts) only lets the
   // frame show the checkout, so that redirect is blocked and reported here; we
-  // close the popup and send the full tab to exactly that URL.
+  // send the full tab to exactly that URL. The popup stays up (showing
+  // "Redirecting…") so the page underneath never flashes before the new one loads.
   useEffect(() => {
     if (!open) return;
     function onViolation(e: SecurityPolicyViolationEvent) {
       if (!e.effectiveDirective.startsWith("frame-src")) return;
-      dialogRef.current?.close();
-      setOpen(false);
-      document.body.style.overflow = "";
-      // Browsers report the full URL (path and query) only for this site; for other
-      // sites it's just the origin, so the backend's redirect URLs should point here.
-      // Without the exact URL, stay on the current page rather than guess.
-      const target = e.blockedURI.startsWith(`${window.location.origin}/`)
-        ? e.blockedURI
-        : window.location.href;
+      setRedirecting(true);
+      // Browsers report the full URL (path and query) for this site, but only the
+      // origin (e.g. https://licfamily.org.gh) for other sites — so point the
+      // backend's redirect URLs here when the exact path matters.
+      const target = /^https?:\/\//.test(e.blockedURI) ? e.blockedURI : window.location.href;
       window.location.assign(target);
     }
     document.addEventListener("securitypolicyviolation", onViolation);
@@ -92,24 +106,16 @@ export default function DonateButton({ className = "" }: { className?: string })
             src={CHECKOUT_URL}
             title="Donation checkout"
             allow="payment"
-            onLoad={(e) => {
-              setLoaded(true);
-              // After payment the checkout redirects the frame back to this site.
-              // Reading the frame's location only succeeds once it is same-origin,
-              // so that's our signal to close and follow the redirect at the top level.
-              let href: string | undefined;
-              try {
-                href = e.currentTarget.contentWindow?.location.href;
-              } catch {
-                return; // Still on the (cross-origin) checkout.
-              }
-              if (!href || href === "about:blank") return;
-              closeCheckout();
-              window.location.assign(href);
-            }}
+            onLoad={() => setLoaded(true)}
             // Pull the frame up to trim the checkout page's blank top padding.
             className="relative -mt-10 block h-[calc(100%+2.5rem)] w-full border-0"
           />
+        )}
+        {redirecting && (
+          <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 bg-white text-sm text-muted">
+            <span className="h-6 w-6 animate-spin rounded-full border-2 border-line border-t-accent" />
+            Redirecting…
+          </div>
         )}
       </dialog>
     </>
