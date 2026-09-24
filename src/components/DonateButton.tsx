@@ -23,11 +23,10 @@ export default function DonateButton({ className = "" }: { className?: string })
     document.body.style.overflow = "";
   }
 
-  // When a payment finishes, the checkout redirects its frame to the merchant's
-  // configured success/failure URL. Our CSP (next.config.ts) only lets the frame
-  // show the checkout, so that redirect is blocked and reported here. We close the
-  // popup and follow it in the full tab if it points at this site (so a failure
-  // URL like /?payment=failed is honoured); any other site goes to /thank-you.
+  // When a payment finishes, the checkout redirects its frame to the success or
+  // failure URL configured in the backend. Our CSP (next.config.ts) only lets the
+  // frame show the checkout, so that redirect is blocked and reported here; we
+  // close the popup and send the full tab to exactly that URL.
   useEffect(() => {
     if (!open) return;
     function onViolation(e: SecurityPolicyViolationEvent) {
@@ -35,10 +34,12 @@ export default function DonateButton({ className = "" }: { className?: string })
       dialogRef.current?.close();
       setOpen(false);
       document.body.style.overflow = "";
-      // Browsers only report the full blocked URL for same-origin targets.
+      // Browsers report the full URL (path and query) only for this site; for other
+      // sites it's just the origin, so the backend's redirect URLs should point here.
+      // Without the exact URL, stay on the current page rather than guess.
       const target = e.blockedURI.startsWith(`${window.location.origin}/`)
         ? e.blockedURI
-        : "/thank-you";
+        : window.location.href;
       window.location.assign(target);
     }
     document.addEventListener("securitypolicyviolation", onViolation);
