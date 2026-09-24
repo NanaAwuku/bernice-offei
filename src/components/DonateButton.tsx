@@ -26,6 +26,19 @@ export default function DonateButton({ className = "" }: { className?: string })
     document.body.style.overflow = "";
   }
 
+  // "Try again" on /payment-failed links to /?donate: open the checkout on arrival
+  // and drop the parameter so a refresh doesn't reopen it.
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    if (!url.searchParams.has("donate")) return;
+    const frame = requestAnimationFrame(() => {
+      url.searchParams.delete("donate");
+      window.history.replaceState(null, "", url);
+      openCheckout();
+    });
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
   // Coming back with the Back button can restore this page from the browser's
   // cache exactly as it was left (popup showing "Redirecting…"), so reset it.
   useEffect(() => {
