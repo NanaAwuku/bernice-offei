@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import Footer from "./Footer";
 import type { ReactNode } from "react";
 import portrait from "../../public/images/portrait.jpg";
 
@@ -115,9 +116,7 @@ export default function ResultPage({
         </div>
       </main>
 
-      <footer className="bg-lavender py-3 text-center text-[10px] tracking-[0.35em] text-plum-muted uppercase sm:text-xs">
-        Forever in our hearts
-      </footer>
+      <Footer />
     </div>
   );
 }

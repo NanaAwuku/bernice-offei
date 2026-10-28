@@ -1,5 +1,6 @@
 import Image from "next/image";
 import DonateButton from "@/components/DonateButton";
+import Footer from "@/components/Footer";
 import portrait from "../../public/images/portrait.jpg";
 
 // Everything, including the donate button, is sized to fit in the first screen:
@@ -51,9 +52,7 @@ export default function Home() {
         </div>
       </main>
 
-      <footer className="bg-lavender py-3 text-center text-[10px] tracking-[0.35em] text-plum-muted uppercase sm:text-xs">
-        Forever in our hearts
-      </footer>
+      <Footer />
     </div>
   );
 }
