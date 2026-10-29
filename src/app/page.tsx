@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Portrait from "@/components/Portrait";
 import DonateButton from "@/components/DonateButton";
 import Footer from "@/components/Footer";
@@ -41,7 +42,24 @@ export default function Home() {
                 <p key={p}>{p}</p>
               ))}
             </div>
-            <DonateButton className="mt-5 sm:mt-7 short:mt-4 tiny:mt-3 tiny:py-3" />
+            <div className="mt-5 flex items-center justify-center gap-6 sm:mt-7 short:mt-4 tiny:mt-3 lg:justify-start">
+              <DonateButton className="tiny:py-3" />
+              {/* A phone can't scan its own screen, so the QR code is for larger screens. */}
+              {site.qrCode && (
+                <div className="hidden items-center gap-3 lg:flex">
+                  <span className="h-10 w-px bg-line" aria-hidden="true" />
+                  <Image
+                    src={site.qrCode}
+                    alt="QR code to donate"
+                    width={96}
+                    height={96}
+                    unoptimized={/^https?:\/\//.test(site.qrCode)}
+                    className="h-24 w-24 rounded-lg bg-white p-1.5 shadow-sm ring-1 ring-line short:h-20 short:w-20"
+                  />
+                  <p className="max-w-24 text-xs leading-snug text-muted">Scan with your phone to donate</p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </main>

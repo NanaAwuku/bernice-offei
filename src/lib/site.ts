@@ -41,6 +41,8 @@ export const site = {
     .split("||")
     .map((p) => p.trim())
     .filter(Boolean),
+  // Optional QR code image (path under /public or https:// URL); desktop only.
+  qrCode: process.env.NEXT_PUBLIC_QR_CODE?.trim() || undefined,
   // Short line shown on the link-preview image.
   tagline: text(process.env.NEXT_PUBLIC_TAGLINE, "Sister, mother, wife \u2014 forever in our hearts."),
   // Quote and its source shown on the thank-you / payment-failed pages.
