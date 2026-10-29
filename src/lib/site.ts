@@ -15,10 +15,12 @@ const name = text(process.env.NEXT_PUBLIC_NAME, "Bernice Ofeibea Offei");
 const birthYear = text(process.env.NEXT_PUBLIC_BIRTH_YEAR, "1963");
 const deathYear = text(process.env.NEXT_PUBLIC_DEATH_YEAR, "2026");
 
+// Used in running text, e.g. "Thank you for remembering Bernice".
+const shortName = text(process.env.NEXT_PUBLIC_SHORT_NAME, name.split(/\s+/)[0]);
+
 export const site = {
   name,
-  // Used in running text, e.g. "Thank you for remembering Bernice".
-  shortName: text(process.env.NEXT_PUBLIC_SHORT_NAME, name.split(/\s+/)[0]),
+  shortName,
   years: `${birthYear} \u2013 ${deathYear}`,
   title: `In Loving Memory of ${name} (${birthYear} \u2013 ${deathYear})`,
   description: text(
@@ -42,6 +44,24 @@ export const site = {
   // Quote and its source shown on the thank-you / payment-failed pages.
   resultQuote: text(process.env.NEXT_PUBLIC_RESULT_QUOTE, "Remember your Creator while you have breath."),
   resultQuoteSource: text(process.env.NEXT_PUBLIC_RESULT_QUOTE_SOURCE, "Bernice Offei \u00b7 \u201cLife is Short\u201d"),
+  // Thank-you page (after a successful payment).
+  thankYou: {
+    title: text(process.env.NEXT_PUBLIC_THANK_YOU_TITLE, "Thank You for Your Kind Support"),
+    lead: text(process.env.NEXT_PUBLIC_THANK_YOU_LEAD, "Your donation has been received successfully."),
+    message: text(
+      process.env.NEXT_PUBLIC_THANK_YOU_MESSAGE,
+      `Your kindness and support mean a great deal to the family. Thank you for remembering ${shortName} and for standing with us as we celebrate a life, faith and legacy.`,
+    ),
+  },
+  // Payment-failed page.
+  paymentFailed: {
+    title: text(process.env.NEXT_PUBLIC_PAYMENT_FAILED_TITLE, "Your Donation Didn\u2019t Go Through"),
+    lead: text(process.env.NEXT_PUBLIC_PAYMENT_FAILED_LEAD, "We couldn\u2019t complete your payment."),
+    message: text(
+      process.env.NEXT_PUBLIC_PAYMENT_FAILED_MESSAGE,
+      "This can happen if the payment was cancelled, the connection dropped, or the card or mobile money wallet was declined. If you think you were charged, please check with your bank or mobile money provider before trying again.",
+    ),
+  },
   memorialUrl: text(
     process.env.NEXT_PUBLIC_MEMORIAL_URL,
     "https://www.forevermissed.com/bernice-offei/about",

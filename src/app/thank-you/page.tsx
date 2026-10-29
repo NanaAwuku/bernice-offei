@@ -12,19 +12,16 @@ export const metadata: Metadata = {
 export default function ThankYou() {
   return (
     <ResultPage
-      title="Thank You for Your Kind Support"
+      title={site.thankYou.title}
       icon={
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" aria-hidden="true">
           <path d="M12 20s-7-4.4-9.2-9A4.8 4.8 0 0 1 12 6.2 4.8 4.8 0 0 1 21.2 11C19 15.6 12 20 12 20Z" />
         </svg>
       }
-      lead="Your donation has been received successfully."
+      lead={site.thankYou.lead}
       actions={<PrimaryButton href={MEMORIAL_URL}>Return to memorial</PrimaryButton>}
     >
-      <p>
-        Your kindness and support mean a great deal to the family. Thank you for remembering
-        {site.shortName} and for standing with us as we celebrate a life, faith and legacy.
-      </p>
+      <p>{site.thankYou.message}</p>
     </ResultPage>
   );
 }

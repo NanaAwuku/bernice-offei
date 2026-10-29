@@ -12,14 +12,14 @@ export const metadata: Metadata = {
 export default function PaymentFailed() {
   return (
     <ResultPage
-      title="Your Donation Didn’t Go Through"
+      title={site.paymentFailed.title}
       icon={
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" aria-hidden="true">
           <circle cx="12" cy="12" r="9" />
           <path d="M12 7.5v5.5M12 16.5h.01" />
         </svg>
       }
-      lead="We couldn’t complete your payment."
+      lead={site.paymentFailed.lead}
       hideQuoteOnTinyScreens
       actions={
         <>
@@ -29,11 +29,7 @@ export default function PaymentFailed() {
         </>
       }
     >
-      <p>
-        This can happen if the payment was cancelled, the connection dropped, or the card or
-        mobile money wallet was declined. If you think you were charged, please check with your
-        bank or mobile money provider before trying again.
-      </p>
+      <p>{site.paymentFailed.message}</p>
     </ResultPage>
   );
 }
