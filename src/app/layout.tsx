@@ -33,11 +33,14 @@ export const metadata: Metadata = {
     title: site.title,
     description: site.description,
     locale: "en_GH",
+    // The env portrait itself; metadataBase makes a /public path absolute.
+    images: [{ url: site.portrait, alt: site.name }],
   },
   twitter: {
     card: "summary_large_image",
     title: site.title,
     description: site.description,
+    images: [site.portrait],
   },
 };
 
