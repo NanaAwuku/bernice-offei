@@ -21,6 +21,8 @@ const shortName = text(process.env.NEXT_PUBLIC_SHORT_NAME, name.split(/\s+/)[0])
 export const site = {
   name,
   shortName,
+  // Optional; shown in brackets under the name when set.
+  nickname: process.env.NEXT_PUBLIC_NICKNAME?.trim() || undefined,
   years: `${birthYear} \u2013 ${deathYear}`,
   title: `In Loving Memory of ${name} (${birthYear} \u2013 ${deathYear})`,
   description: text(

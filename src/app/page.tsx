@@ -21,6 +21,11 @@ export default function Home() {
             <h1 className="mt-2 font-serif text-4xl leading-tight font-medium sm:text-5xl lg:text-6xl short:text-4xl lg:short:text-5xl tiny:text-3xl">
               {site.name}
             </h1>
+            {site.nickname && (
+              <p className="mt-1 font-serif text-base text-muted sm:text-lg tiny:text-sm">
+                ({site.nickname})
+              </p>
+            )}
             <p className="mt-1 font-serif text-xl text-accent sm:mt-2 sm:text-2xl">{site.years}</p>
             <p className="mx-auto mt-3 max-w-lg font-serif text-lg leading-snug text-muted italic sm:mt-5 sm:text-xl short:mt-3 tiny:mt-2 tiny:text-base lg:mx-0">
               &ldquo;{site.quote}&rdquo;
