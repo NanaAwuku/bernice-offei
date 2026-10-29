@@ -71,7 +71,7 @@ export default function ResultPage({
   hideQuoteOnTinyScreens?: boolean;
 }) {
   return (
-    <div className="flex min-h-dvh flex-1 flex-col bg-linear-to-b from-lavender-soft via-background to-lavender text-plum">
+    <div className="flex min-h-screen flex-1 flex-col bg-linear-to-b from-lavender-soft via-background to-lavender text-plum">
       <main className="flex flex-1 items-center justify-center px-4 py-6 text-center sm:py-8 short:py-4">
         <div className="mx-auto grid w-full max-w-5xl items-center gap-6 short:gap-4 tiny:gap-3 lg:grid-cols-[1.15fr_1fr] lg:gap-14">
           <div className="lg:text-left">

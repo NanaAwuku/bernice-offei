@@ -7,7 +7,7 @@ import { site } from "@/lib/site";
 // side by side from lg up, and a compact single column on phones.
 export default function Home() {
   return (
-    <div className="flex min-h-dvh flex-1 flex-col">
+    <div className="flex min-h-screen flex-1 flex-col">
       <main className="flex flex-1 items-center justify-center px-4 py-6 text-center sm:py-10 short:py-4 lg:text-left">
         <div className="mx-auto grid w-full max-w-5xl items-center gap-5 tiny:gap-3 lg:grid-cols-[auto_1fr] lg:gap-16">
           <div className="relative mx-auto h-32 w-32 overflow-hidden rounded-full border-4 border-surface shadow-lg ring-1 ring-line sm:h-44 sm:w-44 short:h-28 short:w-28 tiny:h-20 tiny:w-20 lg:h-80 lg:w-80 lg:short:h-72 lg:short:w-72">
