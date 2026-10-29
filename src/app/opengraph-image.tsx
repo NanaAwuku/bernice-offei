@@ -1,14 +1,16 @@
 import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
+import { loadPortrait } from "@/lib/portrait";
+import { site } from "@/lib/site";
 
-export const alt = "In loving memory of Bernice Ofeibea Offei, 1963 – 2026";
+export const alt = `In loving memory of ${site.name}, ${site.years}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 export default async function Image() {
   const [portrait, serif, serifItalic, sans] = await Promise.all([
-    readFile(join(process.cwd(), "public/images/portrait.jpg"), "base64"),
+    loadPortrait(),
     readFile(join(process.cwd(), "src/assets/cormorant-500.woff")),
     readFile(join(process.cwd(), "src/assets/cormorant-500-italic.woff")),
     readFile(join(process.cwd(), "src/assets/inter-400.woff")),
@@ -30,7 +32,7 @@ export default async function Image() {
         }}
       >
         <img
-          src={`data:image/jpeg;base64,${portrait}`}
+          src={portrait}
           alt=""
           width={380}
           height={380}
@@ -54,10 +56,10 @@ export default async function Image() {
             In loving memory of
           </div>
           <div style={{ fontFamily: "Cormorant", fontSize: 84, lineHeight: 1.05, marginTop: 18 }}>
-            Bernice Ofeibea Offei
+            {site.name}
           </div>
           <div style={{ fontFamily: "Cormorant", fontSize: 44, color: "#8a6a4a", marginTop: 14 }}>
-            1963 – 2026
+            {site.years}
           </div>
           <div style={{ width: 70, height: 2, background: "#8a6a4a", margin: "30px 0" }} />
           <div
@@ -69,7 +71,7 @@ export default async function Image() {
               color: "#6f625a",
             }}
           >
-            Sister, mother, wife — forever in our hearts.
+            {site.tagline}
           </div>
         </div>
       </div>

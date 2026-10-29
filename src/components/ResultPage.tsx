@@ -1,10 +1,10 @@
-import Image from "next/image";
+import Portrait from "./Portrait";
+import { site } from "@/lib/site";
 import Link from "next/link";
 import Footer from "./Footer";
 import type { ReactNode } from "react";
-import portrait from "../../public/images/portrait.jpg";
 
-export const MEMORIAL_URL = "https://www.forevermissed.com/bernice-offei/about";
+export const MEMORIAL_URL = site.memorialUrl;
 
 function Sprig({ className = "" }: { className?: string }) {
   return (
@@ -96,20 +96,15 @@ export default function ResultPage({
 
           {/* Phones: small portrait beside the quote. lg: large portrait above it. */}
           <figure className={`${hideQuoteOnTinyScreens ? "tiny:hidden " : ""}mx-auto flex max-w-md items-center gap-4 text-left lg:max-w-none lg:flex-col lg:gap-6 lg:text-center`}>
-            <div className="h-24 w-24 shrink-0 overflow-hidden rounded-full border-4 border-white shadow-xl ring-1 ring-lavender sm:h-28 sm:w-28 tiny:h-20 tiny:w-20 lg:h-72 lg:w-72 lg:short:h-60 lg:short:w-60">
-              <Image
-                src={portrait}
-                alt="Bernice Ofeibea Offei"
-                placeholder="blur"
-                className="h-full w-full object-cover"
-              />
+            <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-full border-4 border-white shadow-xl ring-1 ring-lavender sm:h-28 sm:w-28 tiny:h-20 tiny:w-20 lg:h-72 lg:w-72 lg:short:h-60 lg:short:w-60">
+              <Portrait />
             </div>
             <div>
               <blockquote className="font-serif text-xl leading-snug italic sm:text-2xl lg:text-3xl lg:short:text-2xl">
-                &ldquo;Remember your Creator while you have breath.&rdquo;
+                &ldquo;{site.resultQuote}&rdquo;
               </blockquote>
               <figcaption className="mt-2 text-[10px] tracking-[0.3em] text-plum-muted uppercase sm:text-xs lg:mt-3">
-                Bernice Offei &middot; &ldquo;Life is Short&rdquo;
+                {site.resultQuoteSource}
               </figcaption>
             </div>
           </figure>

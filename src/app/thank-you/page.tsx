@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import { site } from "@/lib/site";
 import ResultPage, { MEMORIAL_URL, PrimaryButton } from "@/components/ResultPage";
 
 export const metadata: Metadata = {
-  title: "Thank You — Bernice Ofeibea Offei",
-  description: "Thank you for your kind support in memory of Bernice Ofeibea Offei.",
+  title: `Thank You — ${site.name}`,
+  description: `Thank you for your kind support in memory of ${site.name}.`,
   // Post-donation page: keep it out of search results.
   robots: { index: false, follow: true },
 };
@@ -22,7 +23,7 @@ export default function ThankYou() {
     >
       <p>
         Your kindness and support mean a great deal to the family. Thank you for remembering
-        Bernice and for standing with us as we celebrate her life, faith and legacy.
+        {site.shortName} and for standing with us as we celebrate a life, faith and legacy.
       </p>
     </ResultPage>
   );

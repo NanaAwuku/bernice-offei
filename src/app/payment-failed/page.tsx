@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import { site } from "@/lib/site";
 import ResultPage, { MEMORIAL_URL, PrimaryButton, SecondaryButton } from "@/components/ResultPage";
 
 export const metadata: Metadata = {
-  title: "Donation Not Completed — Bernice Ofeibea Offei",
-  description: "Your donation in memory of Bernice Ofeibea Offei could not be completed.",
+  title: `Donation Not Completed — ${site.name}`,
+  description: `Your donation in memory of ${site.name} could not be completed.`,
   // Post-donation page: keep it out of search results.
   robots: { index: false, follow: true },
 };

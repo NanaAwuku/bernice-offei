@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { CHECKOUT_URL } from "@/lib/checkout";
+import { site } from "@/lib/site";
 
 export default function DonateButton({ className = "" }: { className?: string }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -85,7 +86,7 @@ export default function DonateButton({ className = "" }: { className?: string })
 
       <dialog
         ref={dialogRef}
-        aria-label="Donate in memory of Bernice"
+        aria-label={`Donate in memory of ${site.shortName}`}
         onClose={closeCheckout}
         onKeyDown={(e) => {
           if (e.key === "Escape") {
