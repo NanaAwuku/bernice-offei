@@ -14,7 +14,7 @@ export type DonationDetails = {
 };
 
 const field =
-  "w-full rounded-xl bg-white px-4 py-3 text-base text-foreground ring-1 ring-line placeholder:text-muted/60 focus:outline-2 focus:outline-accent";
+  "w-full rounded-xl bg-white px-4 py-3.5 text-base text-foreground ring-1 ring-line placeholder:text-muted/60 focus:outline-2 focus:outline-accent";
 
 const money = new Intl.NumberFormat("en-GH");
 
@@ -57,10 +57,10 @@ export default function DonationForm({
   }
 
   return (
-    <form onSubmit={submit} className="mx-auto w-full max-w-md rounded-3xl bg-white/80 p-5 text-left shadow-xl ring-1 ring-line sm:p-7">
+    <form onSubmit={submit} className="mx-auto w-full max-w-md rounded-3xl bg-white/80 p-5 text-left shadow-xl ring-1 ring-line sm:p-8">
       <h2 className="font-serif text-2xl font-medium sm:text-3xl">Make a donation</h2>
 
-      <div className="mt-4 grid grid-cols-3 gap-2" role="group" aria-label="Amount">
+      <div className="mt-6 grid grid-cols-3 gap-3" role="group" aria-label="Amount">
         {PRESETS.map((value) => (
           <button
             key={value}
@@ -79,7 +79,7 @@ export default function DonationForm({
         ))}
       </div>
 
-      <div className="mt-2 flex items-center gap-2 rounded-xl bg-white px-4 ring-1 ring-line focus-within:outline-2 focus-within:outline-accent">
+      <div className="mt-3 flex items-center gap-2 rounded-xl bg-white px-4 ring-1 ring-line focus-within:outline-2 focus-within:outline-accent">
         <span className="text-base font-medium text-muted">GH₵</span>
         <input
           inputMode="decimal"
@@ -95,7 +95,7 @@ export default function DonationForm({
         />
       </div>
 
-      <div className="mt-4 space-y-2">
+      <div className="mt-7 space-y-3.5">
         <input required value={fullName} onChange={(e) => setFullName(e.target.value)} placeholder="Your name" autoComplete="name" maxLength={100} className={field} />
         <input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email address (for receipt)" autoComplete="email" maxLength={120} className={field} />
         <div className="flex overflow-hidden rounded-xl bg-white ring-1 ring-line focus-within:outline-2 focus-within:outline-accent">
@@ -104,7 +104,7 @@ export default function DonationForm({
         </div>
       </div>
 
-      <div className="mt-2 grid grid-cols-2 gap-2" role="group" aria-label="Payment method">
+      <div className="mt-6 grid grid-cols-2 gap-3" role="group" aria-label="Payment method">
         {(
           [
             ["mobile_money", "Mobile Money"],
@@ -125,7 +125,7 @@ export default function DonationForm({
         ))}
       </div>
 
-      <label className="mt-3 flex cursor-pointer items-center gap-2.5 text-sm text-muted">
+      <label className="mt-5 flex cursor-pointer items-center gap-2.5 text-sm text-muted">
         <input type="checkbox" checked={anonymous} onChange={(e) => setAnonymous(e.target.checked)} className="h-4 w-4 cursor-pointer accent-(--plum)" />
         Give anonymously
       </label>
@@ -139,7 +139,7 @@ export default function DonationForm({
       <button
         type="submit"
         disabled={busy}
-        className="mt-4 inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-accent px-6 py-3.5 text-lg font-medium text-white shadow-sm transition hover:bg-accent-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:cursor-wait disabled:opacity-70"
+        className="mt-6 inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-accent px-6 py-3.5 text-lg font-medium text-white shadow-sm transition hover:bg-accent-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:cursor-wait disabled:opacity-70"
       >
         {busy ? (
           <>
