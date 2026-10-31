@@ -1,9 +1,8 @@
 // Chango third-party API (Create Transaction). Credentials are server-only env vars.
 // Required: CHANGO_CREATE_TRANSACTION_URL, CHANGO_X_API_KEY (sent as the x-api-key
-// header), CHANGO_TRANSFLOW_ID, CHANGO_GROUP_ID, CHANGO_CAMPAIGN_ID,
-// CHANGO_PAYMENT_DESTINATION_NUMBER.
-// Optional: CHANGO_TRANSFLOW_API_KEY (sent as the api-key header),
-// CHANGO_MERCHANT_PRODUCT_ID (defaults to the campaign ID).
+// header), CHANGO_TRANSFLOW_ID (transflow-id header), CHANGO_GROUP_ID,
+// CHANGO_CAMPAIGN_ID, CHANGO_PAYMENT_DESTINATION_NUMBER.
+// Optional: CHANGO_MERCHANT_PRODUCT_ID (defaults to the campaign ID).
 
 export type DonationInput = {
   amount: number;
@@ -20,15 +19,14 @@ function config() {
   const c = {
     url: env.CHANGO_CREATE_TRANSACTION_URL?.trim(),
     gatewayKey: env.CHANGO_X_API_KEY?.trim(),
-    transflowApiKey: env.CHANGO_TRANSFLOW_API_KEY?.trim(),
     transflowId: env.CHANGO_TRANSFLOW_ID?.trim(),
     groupId: env.CHANGO_GROUP_ID?.trim(),
     campaignId: env.CHANGO_CAMPAIGN_ID?.trim(),
     destination: env.CHANGO_PAYMENT_DESTINATION_NUMBER?.trim(),
-    merchantProductId: env.CHANGO_MERCHANT_PRODUCT_ID?.trim() || env.CHANGO_CAMPAIGN_ID?.trim(),
+    merchantProductId: env.CHANGO_CAMPAIGN_ID?.trim(),
   };
   const missing = Object.entries(c)
-    .filter(([key, value]) => !value && key !== "transflowApiKey")
+    .filter(([, value]) => !value)
     .map(([key]) => key);
   return { c, missing };
 }
@@ -38,15 +36,21 @@ function config() {
 function findCheckoutUrl(value: unknown): string | undefined {
   const urls: { key: string; url: string }[] = [];
   (function walk(node: unknown, key: string) {
-    if (typeof node === "string" && /^https?:\/\//.test(node)) urls.push({ key, url: node });
+    if (typeof node === "string" && /^https?:\/\//.test(node))
+      urls.push({ key, url: node });
     else if (node && typeof node === "object")
       for (const [k, v] of Object.entries(node)) walk(v, k);
   })(value, "");
-  return (urls.find((u) => /url|link|redirect|checkout/i.test(u.key)) ?? urls[0])?.url;
+  return (
+    urls.find((u) => /url|link|redirect|checkout/i.test(u.key)) ?? urls[0]
+  )?.url;
 }
 
 export class DonationError extends Error {
-  constructor(message: string, readonly status = 502) {
+  constructor(
+    message: string,
+    readonly status = 502,
+  ) {
     super(message);
   }
 }
@@ -58,7 +62,10 @@ export async function createTransaction(
   const { c, missing } = config();
   if (missing.length) {
     console.error(`Chango is not configured; missing: ${missing.join(", ")}`);
-    throw new DonationError("Donations are temporarily unavailable. Please try again later.", 503);
+    throw new DonationError(
+      "Donations are temporarily unavailable. Please try again later.",
+      503,
+    );
   }
 
   const body = {
@@ -94,7 +101,6 @@ export async function createTransaction(
         "Content-Type": "application/json",
         Accept: "application/json",
         "x-api-key": c.gatewayKey!,
-        ...(c.transflowApiKey ? { "api-key": c.transflowApiKey } : {}),
         "transflow-id": c.transflowId!,
         merchantProductId: c.merchantProductId!,
       },
@@ -104,15 +110,23 @@ export async function createTransaction(
     });
   } catch (error) {
     console.error("Chango request failed", error);
-    throw new DonationError("We couldn't reach the payment service. Please try again.");
+    throw new DonationError(
+      "We couldn't reach the payment service. Please try again.",
+    );
   }
 
   const json = await res.json().catch(() => null);
   // Check the envelope's response_code as well as the HTTP status (see the API docs).
-  const ok = res.ok && (json?.response_code === undefined || String(json.response_code) === "200");
+  const ok =
+    res.ok &&
+    (json?.response_code === undefined || String(json.response_code) === "200");
   const checkoutUrl = ok ? findCheckoutUrl(json?.data ?? json) : undefined;
   if (!checkoutUrl) {
-    console.error("Chango rejected the transaction", res.status, JSON.stringify(json));
+    console.error(
+      "Chango rejected the transaction",
+      res.status,
+      JSON.stringify(json),
+    );
     throw new DonationError(
       typeof json?.response_message === "string" && json.response_message
         ? json.response_message
