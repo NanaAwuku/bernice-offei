@@ -1,19 +1,24 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { CHECKOUT_URL } from "@/lib/checkout";
+import DonationForm, { type DonationDetails } from "./DonationForm";
 import { site } from "@/lib/site";
 
-export default function DonateButton({ className = "" }: { className?: string }) {
+// The donation form (right column on the home page). Submitting it asks our API to
+// create the Chango transaction, and the checkout it returns opens in a modal (full
+// screen on phones).
+export default function DonateFlow() {
   const dialogRef = useRef<HTMLDialogElement>(null);
-  const [open, setOpen] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [checkoutUrl, setCheckoutUrl] = useState<string | null>(null);
   const [loaded, setLoaded] = useState(false);
   const [redirecting, setRedirecting] = useState(false);
 
-  function openCheckout() {
+  function openCheckout(url: string) {
     setLoaded(false);
     setRedirecting(false);
-    setOpen(true);
+    setCheckoutUrl(url);
     dialogRef.current?.showModal();
     document.body.style.overflow = "hidden";
   }
@@ -22,23 +27,32 @@ export default function DonateButton({ className = "" }: { className?: string })
   // browsers may deliver late (or not at all) in background tabs.
   function closeCheckout() {
     dialogRef.current?.close();
-    setOpen(false);
+    setCheckoutUrl(null);
     setRedirecting(false);
     document.body.style.overflow = "";
   }
 
-  // "Try again" on /payment-failed links to /?donate: open the checkout on arrival
-  // and drop the parameter so a refresh doesn't reopen it.
-  useEffect(() => {
-    const url = new URL(window.location.href);
-    if (!url.searchParams.has("donate")) return;
-    const frame = requestAnimationFrame(() => {
-      url.searchParams.delete("donate");
-      window.history.replaceState(null, "", url);
-      openCheckout();
-    });
-    return () => cancelAnimationFrame(frame);
-  }, []);
+  async function submit(details: DonationDetails) {
+    setSubmitting(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/donate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(details),
+      });
+      const data = await res.json().catch(() => null);
+      if (!res.ok || !data?.checkoutUrl) {
+        setError(data?.error ?? "We couldn't start your donation. Please try again.");
+        return;
+      }
+      openCheckout(data.checkoutUrl);
+    } catch {
+      setError("We couldn't reach the server. Check your connection and try again.");
+    } finally {
+      setSubmitting(false);
+    }
+  }
 
   // Coming back with the Back button can restore this page from the browser's
   // cache exactly as it was left (popup showing "Redirecting…"), so reset it.
@@ -46,8 +60,9 @@ export default function DonateButton({ className = "" }: { className?: string })
     function onPageShow(e: PageTransitionEvent) {
       if (!e.persisted) return;
       dialogRef.current?.close();
-      setOpen(false);
+      setCheckoutUrl(null);
       setRedirecting(false);
+      setSubmitting(false);
       document.body.style.overflow = "";
     }
     window.addEventListener("pageshow", onPageShow);
@@ -55,34 +70,27 @@ export default function DonateButton({ className = "" }: { className?: string })
   }, []);
 
   // When a payment finishes, the checkout redirects its frame to the success or
-  // failure URL configured in the backend. Our CSP (next.config.ts) only lets the
+  // failure URL we sent with the transaction. Our CSP (next.config.ts) only lets the
   // frame show the checkout, so that redirect is blocked and reported here; we
   // send the full tab to exactly that URL. The popup stays up (showing
   // "Redirecting…") so the page underneath never flashes before the new one loads.
   useEffect(() => {
-    if (!open) return;
+    if (!checkoutUrl) return;
     function onViolation(e: SecurityPolicyViolationEvent) {
       if (!e.effectiveDirective.startsWith("frame-src")) return;
       setRedirecting(true);
       // Browsers report the full URL (path and query) for this site, but only the
-      // origin (e.g. https://licfamily.org.gh) for other sites — so point the
-      // backend's redirect URLs here when the exact path matters.
+      // origin for other sites, so fall back to this page for those.
       const target = /^https?:\/\//.test(e.blockedURI) ? e.blockedURI : window.location.href;
       window.location.assign(target);
     }
     document.addEventListener("securitypolicyviolation", onViolation);
     return () => document.removeEventListener("securitypolicyviolation", onViolation);
-  }, [open]);
+  }, [checkoutUrl]);
 
   return (
     <>
-      <button
-        type="button"
-        onClick={openCheckout}
-        className={`inline-flex cursor-pointer items-center justify-center rounded-full bg-accent px-9 py-4 text-lg font-medium text-white shadow-sm transition hover:bg-accent-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${className}`}
-      >
-        Make a donation
-      </button>
+      <DonationForm busy={submitting} error={error} onSubmit={submit} />
 
       <dialog
         ref={dialogRef}
@@ -98,7 +106,8 @@ export default function DonateButton({ className = "" }: { className?: string })
           // Clicking the backdrop (the dialog element itself) closes it.
           if (e.target === dialogRef.current) closeCheckout();
         }}
-        className="m-auto h-[min(795px,calc(100dvh-2rem))] w-[min(420px,calc(100vw-2rem))] max-h-none max-w-none overflow-hidden rounded-2xl bg-white p-0 shadow-2xl"
+        // Phones: fill the screen so it doesn't read as a modal. Larger screens: a card.
+        className="m-0 h-dvh max-h-none w-dvw max-w-none overflow-hidden bg-white p-0 shadow-2xl sm:m-auto sm:h-[min(795px,calc(100dvh-2rem))] sm:w-[min(420px,calc(100vw-2rem))] sm:rounded-2xl"
       >
         <button
           type="button"
@@ -115,9 +124,9 @@ export default function DonateButton({ className = "" }: { className?: string })
             Loading secure checkout…
           </div>
         )}
-        {open && (
+        {checkoutUrl && (
           <iframe
-            src={CHECKOUT_URL}
+            src={checkoutUrl}
             title="Donation checkout"
             allow="payment"
             onLoad={() => setLoaded(true)}

@@ -23,8 +23,7 @@ export default function PaymentFailed() {
       hideQuoteOnTinyScreens
       actions={
         <>
-          {/* ?donate opens the checkout popup on arrival (see DonateButton). */}
-          <PrimaryButton href="/?donate">Try again</PrimaryButton>
+          <PrimaryButton href="/">Try again</PrimaryButton>
           <SecondaryButton href={MEMORIAL_URL}>Return to memorial</SecondaryButton>
         </>
       }
