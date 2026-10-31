@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { site } from "@/lib/site";
-import ResultPage, { MEMORIAL_URL, PrimaryButton } from "@/components/ResultPage";
+import ResultPage, { PrimaryButton } from "@/components/ResultPage";
 
 export const metadata: Metadata = {
   title: `Thank You — ${site.name}`,
@@ -19,7 +19,7 @@ export default function ThankYou() {
         </svg>
       }
       lead={site.thankYou.lead}
-      actions={<PrimaryButton href={MEMORIAL_URL}>Return to memorial</PrimaryButton>}
+      actions={<PrimaryButton href="/">Return to memorial</PrimaryButton>}
     >
       <p>{site.thankYou.message}</p>
     </ResultPage>
