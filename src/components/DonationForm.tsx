@@ -43,16 +43,18 @@ export default function DonationForm({
   const [phone, setPhone] = useState("");
   const [method, setMethod] = useState<DonationDetails["paymentMethod"]>("mobile_money");
   const [anonymous, setAnonymous] = useState(false);
-  const [problem, setProblem] = useState<string | null>(null);
 
   const amount = custom ? Number(custom) : (preset ?? 0);
+  const msisdn = toMsisdn(phone);
+  const complete =
+    amount >= 1 &&
+    fullName.trim().length > 0 &&
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim()) &&
+    msisdn !== undefined;
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
-    const msisdn = toMsisdn(phone);
-    if (!(amount >= 1)) return setProblem("Choose or enter an amount.");
-    if (!msisdn) return setProblem("Enter a valid Ghana phone number.");
-    setProblem(null);
+    if (!complete || busy || !msisdn) return;
     onSubmit({ amount, fullName: fullName.trim(), email: email.trim(), msisdn, paymentMethod: method, anonymous });
   }
 
@@ -130,16 +132,17 @@ export default function DonationForm({
         Give anonymously
       </label>
 
-      {(problem ?? error) && (
+      {error && (
         <p role="alert" className="mt-3 text-sm text-red-700">
-          {problem ?? error}
+          {error}
         </p>
       )}
 
       <button
         type="submit"
-        disabled={busy}
-        className="mt-6 inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-accent px-6 py-3.5 text-lg font-medium text-white shadow-sm transition hover:bg-accent-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:cursor-wait disabled:opacity-70"
+        aria-busy={busy}
+        disabled={busy || !complete}
+        className="mt-6 inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-accent px-6 py-3.5 text-lg font-medium text-white shadow-sm transition hover:bg-accent-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:cursor-not-allowed disabled:opacity-50 aria-busy:cursor-wait"
       >
         {busy ? (
           <>

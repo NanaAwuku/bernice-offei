@@ -18,7 +18,7 @@ export default function Home() {
             <p className="mt-5 text-[11px] tracking-[0.3em] text-muted uppercase sm:text-xs">
               In loving memory of
             </p>
-            <h1 className="mt-2 font-serif text-4xl leading-tight font-medium sm:text-5xl lg:text-5xl xl:text-6xl">
+            <h1 className="mt-2 font-serif text-4xl leading-[1.05] font-medium sm:text-5xl lg:text-5xl xl:text-6xl">
               {site.name}
             </h1>
             {site.nickname && (
@@ -34,7 +34,7 @@ export default function Home() {
             <h2 className="mt-4 font-serif text-2xl font-medium sm:mt-5 sm:text-3xl">
               Expressions of sympathy
             </h2>
-            <div className="mx-auto mt-2 max-w-xl space-y-2 text-[15px] leading-relaxed font-medium text-muted sm:text-base lg:mx-0">
+            <div className="mx-auto mt-2 max-w-xl space-y-2 text-[15px] leading-relaxed font-normal text-muted sm:text-base lg:mx-0">
               {site.sympathy.map((p) => (
                 <p key={p}>{p}</p>
               ))}
