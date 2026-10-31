@@ -17,6 +17,7 @@ export type DonationInput = {
 function config() {
   const env = process.env;
   const c = {
+    destinationCode: env.DESTINATION_CODE?.trim(),
     url: env.CHANGO_CREATE_TRANSACTION_URL?.trim(),
     gatewayKey: env.CHANGO_X_API_KEY?.trim(),
     apiKey: env.CHANGO_API_KEY?.trim(),
@@ -70,6 +71,7 @@ export async function createTransaction(
   }
 
   const body = {
+    destinationCode: c.destinationCode,
     groupId: c.groupId,
     campaignId: c.campaignId,
     amount: input.amount,
@@ -77,7 +79,7 @@ export async function createTransaction(
     narration: opts.narration,
     recurring: false,
     paymentDestinationNumber: c.destination,
-    channelId: input.paymentMethod === "card" ? "CARD" : "MOMO",
+    channelId: input.paymentMethod === "card" ? "CARD" : "WALLET",
     platform: "web",
     countryId: "GH",
     anonymous: input.anonymous,
