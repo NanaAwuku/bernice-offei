@@ -1,8 +1,8 @@
 // Chango third-party API (Create Transaction). Credentials are server-only env vars.
 // Required: CHANGO_CREATE_TRANSACTION_URL, CHANGO_X_API_KEY (sent as the x-api-key
-// header), CHANGO_TRANSFLOW_ID (transflow-id header), CHANGO_GROUP_ID,
-// CHANGO_CAMPAIGN_ID, CHANGO_PAYMENT_DESTINATION_NUMBER.
-// Optional: CHANGO_MERCHANT_PRODUCT_ID (defaults to the campaign ID).
+// header), CHANGO_API_KEY (api-key header), CHANGO_TRANSFLOW_ID (transflow-id header),
+// CHANGO_GROUP_ID, CHANGO_CAMPAIGN_ID, CHANGO_PAYMENT_DESTINATION_NUMBER.
+// The campaign ID is also sent as merchantProductId.
 
 export type DonationInput = {
   amount: number;
@@ -98,23 +98,11 @@ export async function createTransaction(
   const headers = {
     "Content-Type": "application/json",
     Accept: "application/json",
-    "api-key": c.apiKey,
-    "x-api-key": c.gatewayKey,
+    "api-key": c.apiKey!,
+    "x-api-key": c.gatewayKey!,
     "transflow-id": c.transflowId!,
     merchantProductId: c.merchantProductId!,
   };
-  // TEMPORARY: header names and value lengths only (never the values) to debug auth.
-  console.log(
-    "Chango request",
-    c.url,
-    Object.fromEntries(
-      Object.entries(headers).map(([name, value]) => [
-        name,
-        `${value.length} chars`,
-      ]),
-    ),
-  );
-
   try {
     res = await fetch(c.url!, {
       method: "POST",
