@@ -19,6 +19,7 @@ function config() {
   const c = {
     url: env.CHANGO_CREATE_TRANSACTION_URL?.trim(),
     gatewayKey: env.CHANGO_X_API_KEY?.trim(),
+    apiKey: env.CHANGO_API_KEY?.trim(),
     transflowId: env.CHANGO_TRANSFLOW_ID?.trim(),
     groupId: env.CHANGO_GROUP_ID?.trim(),
     campaignId: env.CHANGO_CAMPAIGN_ID?.trim(),
@@ -94,16 +95,30 @@ export async function createTransaction(
   };
 
   let res: Response;
+  const headers = {
+    "Content-Type": "application/json",
+    Accept: "application/json",
+    "api-key": c.apiKey,
+    "x-api-key": c.gatewayKey,
+    "transflow-id": c.transflowId!,
+    merchantProductId: c.merchantProductId!,
+  };
+  // TEMPORARY: header names and value lengths only (never the values) to debug auth.
+  console.log(
+    "Chango request",
+    c.url,
+    Object.fromEntries(
+      Object.entries(headers).map(([name, value]) => [
+        name,
+        `${value.length} chars`,
+      ]),
+    ),
+  );
+
   try {
     res = await fetch(c.url!, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        "x-api-key": c.gatewayKey!,
-        "transflow-id": c.transflowId!,
-        merchantProductId: c.merchantProductId!,
-      },
+      headers,
       body: JSON.stringify(body),
       signal: AbortSignal.timeout(20_000),
       cache: "no-store",
