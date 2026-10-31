@@ -1,8 +1,9 @@
 // Chango third-party API (Create Transaction). Credentials are server-only env vars.
-// Required: CHANGO_CREATE_TRANSACTION_URL, CHANGO_API_KEY, CHANGO_TRANSFLOW_ID,
-// CHANGO_GROUP_ID, CHANGO_CAMPAIGN_ID, CHANGO_PAYMENT_DESTINATION_NUMBER.
-// Optional: CHANGO_GATEWAY_KEY (sent as x-api-key), CHANGO_MERCHANT_PRODUCT_ID
-// (defaults to the campaign ID).
+// Required: CHANGO_CREATE_TRANSACTION_URL, CHANGO_X_API_KEY (sent as the x-api-key
+// header), CHANGO_TRANSFLOW_ID, CHANGO_GROUP_ID, CHANGO_CAMPAIGN_ID,
+// CHANGO_PAYMENT_DESTINATION_NUMBER.
+// Optional: CHANGO_TRANSFLOW_API_KEY (sent as the api-key header),
+// CHANGO_MERCHANT_PRODUCT_ID (defaults to the campaign ID).
 
 export type DonationInput = {
   amount: number;
@@ -18,16 +19,16 @@ function config() {
   const env = process.env;
   const c = {
     url: env.CHANGO_CREATE_TRANSACTION_URL?.trim(),
-    apiKey: env.CHANGO_API_KEY?.trim(),
+    gatewayKey: env.CHANGO_X_API_KEY?.trim(),
+    transflowApiKey: env.CHANGO_TRANSFLOW_API_KEY?.trim(),
     transflowId: env.CHANGO_TRANSFLOW_ID?.trim(),
     groupId: env.CHANGO_GROUP_ID?.trim(),
     campaignId: env.CHANGO_CAMPAIGN_ID?.trim(),
     destination: env.CHANGO_PAYMENT_DESTINATION_NUMBER?.trim(),
-    gatewayKey: env.CHANGO_GATEWAY_KEY?.trim(),
     merchantProductId: env.CHANGO_MERCHANT_PRODUCT_ID?.trim() || env.CHANGO_CAMPAIGN_ID?.trim(),
   };
   const missing = Object.entries(c)
-    .filter(([key, value]) => !value && key !== "gatewayKey")
+    .filter(([key, value]) => !value && key !== "transflowApiKey")
     .map(([key]) => key);
   return { c, missing };
 }
@@ -92,8 +93,8 @@ export async function createTransaction(
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
-        ...(c.gatewayKey ? { "x-api-key": c.gatewayKey } : {}),
-        "api-key": c.apiKey!,
+        "x-api-key": c.gatewayKey!,
+        ...(c.transflowApiKey ? { "api-key": c.transflowApiKey } : {}),
         "transflow-id": c.transflowId!,
         merchantProductId: c.merchantProductId!,
       },
