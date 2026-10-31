@@ -71,7 +71,8 @@ export async function createTransaction(
   }
 
   const body = {
-    destinationCode: c.destinationCode,
+    destinationCode:
+      input.paymentMethod === "card" ? "CARD" : c.destinationCode,
     groupId: c.groupId,
     campaignId: c.campaignId,
     amount: input.amount,
