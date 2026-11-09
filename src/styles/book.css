@@ -1,0 +1,70 @@
+/* Memorial book page and reader */
+.book-intro { background: var(--ink); color: var(--ivory); padding: 56px 0 34px; }
+.book-intro-inner { display: flex; justify-content: space-between; align-items: end; gap: 40px; flex-wrap: wrap; }
+.book-intro h1 { font-size: clamp(48px, 6vw, 80px); letter-spacing: -.03em; margin: 14px 0 14px; }
+.book-intro p:not(.eyebrow) { color: var(--on-ink-body); max-width: 520px; }
+.book-intro .actions { margin-top: 0; align-items: center; gap: 22px; }
+.book-intro .text-link { font-size: 14px; color: var(--soft); }
+
+.reader { --toolbar-h: 64px; background: #141513; color: var(--ivory); padding: 24px 0 0; }
+.reader-stage { position: relative; width: min(1500px, 94%); margin: 0 auto;
+  height: clamp(380px, calc(100svh - var(--header-h) - var(--toolbar-h) - 48px), 1150px); }
+.reader.standalone .reader-stage { height: calc(100svh - var(--toolbar-h) - 32px); }
+.reader.standalone { min-height: 100svh; padding-top: 16px; }
+.flipbook { width: 100%; height: 100%; margin: 0 auto; }
+.book-page { background: #fff; overflow: hidden; }
+.book-page img { display: block; width: 100%; height: 100%; object-fit: contain; user-select: none; -webkit-user-drag: none; background: #fbfaf7; }
+.reader.is-zoomed .flipbook { visibility: hidden; }
+.zoom-view { position: absolute; inset: 0; overflow: auto; overscroll-behavior: contain; cursor: grab; background: #141513; }
+.zoom-view.dragging { cursor: grabbing; }
+.zoom-pages { display: flex; justify-content: center; width: max-content; min-width: 100%; margin: 0 auto; }
+.zoom-pages img { display: block; max-width: none; background: #fff; }
+.reader-noscript { position: absolute; inset: 0; display: grid; place-content: center; gap: 18px; text-align: center; padding: 20px; }
+
+.reader-toolbar { display: flex; justify-content: center; align-items: center; gap: 12px 28px; flex-wrap: wrap; min-height: var(--toolbar-h); padding: 10px 16px; }
+.tb-group { display: flex; align-items: center; gap: 6px; }
+.tb-btn { display: inline-grid; place-items: center; width: 44px; height: 44px; border: 1px solid transparent; border-radius: 6px; background: transparent; color: var(--ivory); cursor: pointer; text-decoration: none; }
+.tb-btn svg { width: 22px; height: 22px; }
+.tb-btn:hover:not(:disabled) { border-color: #b99a5180; color: var(--soft); }
+.tb-btn[aria-pressed="true"] { background: #b99a5133; border-color: var(--gold); }
+.tb-btn:disabled { opacity: .35; cursor: default; }
+.tb-btn[hidden] { display: none; }
+.page-jump { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--on-ink-muted); }
+.page-jump input { width: 4.2em; min-height: 40px; padding: 6px 8px; border: 1px solid #b99a5180; border-radius: 5px; background: #1f201e; color: var(--ivory); font: 500 15px var(--sans); text-align: center; -moz-appearance: textfield; }
+.page-jump input::-webkit-inner-spin-button, .page-jump input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+.page-total { min-width: 5.5em; }
+.zoom-level { min-width: 3.4em; text-align: center; font-size: 13px; color: var(--on-ink-muted); }
+
+.reader:fullscreen { padding: 12px 0 0; background: #141513; }
+.reader:fullscreen .reader-stage { width: 98%; height: calc(100vh - var(--toolbar-h) - 24px); }
+
+.book-notes { padding: 64px 0 80px; }
+.book-notes-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
+.book-notes h2 { font-size: 34px; margin-bottom: 14px; }
+.book-notes p { color: var(--muted); font-size: 16px; }
+.book-notes p + p { margin-top: 12px; }
+
+@media (max-width: 720px) {
+  .book-intro { padding: 36px 0 26px; }
+  .book-intro-inner { display: block; }
+  .book-intro .actions { margin-top: 20px; }
+  .reader { padding-top: 14px; --toolbar-h: 112px; }
+  .reader-stage { width: 100%; height: clamp(360px, calc(100svh - var(--header-h) - var(--toolbar-h) - 24px), 900px); }
+  .reader-toolbar { gap: 6px 10px; }
+  .tb-group { gap: 2px; }
+  .book-notes { padding: 44px 0 56px; }
+  .book-notes-inner { grid-template-columns: 1fr; gap: 32px; }
+}
+
+/* page-flip sizes its wrapper by width ratio; pin it to the stage so it never
+   spills over the toolbar, and the library fits pages to the stage height. */
+.flipbook.stf__parent { height: 100%; }
+.flipbook .stf__wrapper { height: 100%; padding-bottom: 0 !important; }
+.reader-stage { overflow: hidden; }
+
+/* Closed covers sit centred; the book slides open as the first page turns. */
+.flipbook .stf__block.cover-slide { transition: transform .6s cubic-bezier(.4, 0, .2, 1); }
+@media (prefers-reduced-motion: reduce) { .flipbook .stf__block.cover-slide { transition: none; } }
+
+/* Full-window reader (/memorial-book/reader) has no site chrome. */
+body:has(.reader.standalone) { background: #141513; }

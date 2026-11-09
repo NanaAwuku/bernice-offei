@@ -1,0 +1,90 @@
+{
+  "_readme": "Single source for the Her Music page. Order here is display order. year: only a confirmed year, otherwise null. artwork: file in src/assets/artwork/. Run `npm run artwork` to (re)download artwork listed in artworkSource.",
+  "featured": {
+    "title": "Life Is Short",
+    "artist": "Bernice Offei",
+    "youtubeId": "JiR45FW6Y4s",
+    "youtubeUrl": "https://www.youtube.com/watch?v=JiR45FW6Y4s",
+    "artwork": "life-is-short.png"
+  },
+  "releases": [
+    {
+      "id": "hold-on",
+      "title": "Hold On",
+      "type": "album",
+      "year": 1997,
+      "artwork": "hold-on.jpg",
+      "artworkSource": "https://i.scdn.co/image/ab67616d0000b2733e4a196ba909be4379bc6b10",
+      "spotifyId": "2ts9kK2JmJ6HD81KWy20IW",
+      "spotifyUrl": "https://open.spotify.com/album/2ts9kK2JmJ6HD81KWy20IW",
+      "youtubePlaylistUrl": "https://www.youtube.com/playlist?list=OLAK5uy_lTvFXjHp1lTm6LWvqOkGuajlS3kUQHaos"
+    },
+    {
+      "id": "life",
+      "title": "Life",
+      "type": "album",
+      "year": null,
+      "artwork": "life.jpg",
+      "artworkSource": "https://i.scdn.co/image/ab67616d0000b273d3321f393f27aa42c6984dd7",
+      "spotifyId": "283x45LYFM7WchGH5aVxKR",
+      "spotifyUrl": "https://open.spotify.com/album/283x45LYFM7WchGH5aVxKR",
+      "youtubePlaylistUrl": "https://www.youtube.com/playlist?list=OLAK5uy_mIiyWqnyXyH2kgxDjmzSPF3g4RPA0ldLw",
+      "note": "Existing YouTube playlist substitutes two videos (see youtube-availability-review.md). Correct later."
+    },
+    {
+      "id": "by-grace",
+      "title": "By Grace",
+      "type": "album",
+      "year": null,
+      "artwork": "by-grace.jpg",
+      "artworkSource": "https://i.scdn.co/image/ab67616d0000b273ab0c23ee61b9bd9025464128",
+      "spotifyId": "0iwZKpM85dtr6Lh5i32mia",
+      "spotifyUrl": "https://open.spotify.com/album/0iwZKpM85dtr6Lh5i32mia",
+      "youtubePlaylistUrl": "https://www.youtube.com/playlist?list=OLAK5uy_mMGxCsSTkCXepTBlR_jzaPUS0d1zkyzMw"
+    },
+    {
+      "id": "me-ko-so",
+      "title": "Me ko so",
+      "type": "album",
+      "year": null,
+      "artwork": "me-ko-so.jpg",
+      "artworkSource": "https://i.scdn.co/image/ab67616d0000b273f4aab1a437d215605e8086a9",
+      "spotifyId": "1PrWFKe14LCVdKrCsVfMQK",
+      "spotifyUrl": "https://open.spotify.com/album/1PrWFKe14LCVdKrCsVfMQK",
+      "youtubePlaylistUrl": "https://www.youtube.com/playlist?list=OLAK5uy_m58QSX33PB1XQsCmGIPESKxbOuX3wvMAY"
+    },
+    {
+      "id": "grateful",
+      "title": "Grateful",
+      "type": "album",
+      "year": null,
+      "artwork": "grateful.jpg",
+      "artworkSource": "https://i.scdn.co/image/ab67616d0000b27383bbc7d576b27e352f3f65ed",
+      "spotifyId": "0B0G19rWaMqSuIrSCkCJdS",
+      "spotifyUrl": "https://open.spotify.com/album/0B0G19rWaMqSuIrSCkCJdS",
+      "youtubePlaylistUrl": "https://www.youtube.com/playlist?list=OLAK5uy_lIidyK0I8hLzOtWqGAqJNoB2CO8Du4Pd8"
+    },
+    {
+      "id": "heaven-bound",
+      "title": "Heaven Bound",
+      "type": "single",
+      "year": null,
+      "artwork": "heaven-bound.jpg",
+      "artworkSource": "https://i.scdn.co/image/ab67616d0000b273013d3bb34359c5abf46e9040",
+      "spotifyId": "5jFuKvxomPxihgIJED6iNd",
+      "spotifyUrl": "https://open.spotify.com/album/5jFuKvxomPxihgIJED6iNd",
+      "youtubePlaylistUrl": "https://www.youtube.com/playlist?list=OLAK5uy_m7bjMDRWoIo6-Aaq9vyPo3izJSpXxZhl4"
+    },
+    {
+      "id": "your-will",
+      "title": "Your Will",
+      "type": "single",
+      "year": null,
+      "artwork": "your-will.jpg",
+      "artworkSource": "https://i.scdn.co/image/ab67616d0000b27349a7d17803be35b72634fde5",
+      "spotifyId": "11GCHQoTcNzspQKmMhvrRS",
+      "spotifyUrl": "https://open.spotify.com/album/11GCHQoTcNzspQKmMhvrRS",
+      "youtubePlaylistUrl": "https://www.youtube.com/playlist?list=OLAK5uy_lULnHVvbZRzv-copju30cd1dxtSa755I0"
+    }
+  ]
+}

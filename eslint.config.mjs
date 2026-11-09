@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // The original Astro site, kept for reference during the migration.
+    "berniceoffei-memorial/**",
   ]),
 ]);
 

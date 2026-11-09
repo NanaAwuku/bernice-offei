@@ -1,0 +1,14 @@
+{
+  "_readme": "Donation options shown in the Donate panel and on /donate. Edit the values here only. The online checkout URL is the NEXT_PUBLIC_CHECKOUT_URL environment variable. 'copy' is what the Copy button puts on the clipboard (no spaces).",
+  "intro": "Thank you for your love and support.",
+  "online": {
+    "button": "Give online",
+    "note": "Card or Mobile Money"
+  },
+  "direct": [
+    { "label": "Mobile Money", "value": "054 431 6169", "copy": "0544316169" },
+    { "label": "Short code", "value": "*887*500#", "copy": "*887*500#", "dial": true },
+    { "label": "GCB Bank", "value": "1031120008097", "copy": "1031120008097", "detail": "Legon branch · SWIFT GHCBGHAC" }
+  ],
+  "accountName": "Samuel Kwame Offei"
+}

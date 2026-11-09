@@ -1,0 +1,18 @@
+{
+  "_readme": "Site-wide links and wording. Edit here; every page reads from this file.",
+  "name": "Bernice Ofeibea Offei",
+  "shortName": "Bernice Offei",
+  "born": "25 February 1963",
+  "died": "12 September 2026",
+  "domain": "berniceoffei.com",
+  "siteUrl": "https://www.berniceoffei.com",
+  "foreverMissedUrl": "https://www.forevermissed.com/bernice-offei",
+  "donationPoweredBy": {
+    "label": "Chango",
+    "url": "https://changoapp.com"
+  },
+  "donationEmbedHosts": [
+    "www.berniceoffei.com"
+  ],
+  "_donationNote": "The checkout provider only allows embedding on the hosts in its frame-ancestors policy (currently https://www.berniceoffei.com). On any other host (previews, localhost) Donate opens the hosted checkout in a new tab instead."
+}
