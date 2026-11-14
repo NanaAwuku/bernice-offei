@@ -4,6 +4,7 @@ import "@/styles/global.css";
 import "@/styles/music.css";
 import "@/styles/book.css";
 import "@/styles/status.css";
+import "@/styles/live.css";
 import { DEFAULT_DESCRIPTION, HOME_TITLE } from "@/lib/metadata";
 import { site } from "@/lib/site";
 

@@ -4,6 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { SHOW_MEMORIAL_BOOK } from "@/lib/book";
+import { useLiveEnded } from "@/lib/live-state";
+import { LIVESTREAM } from "@/lib/livestream";
 import { site } from "@/lib/site";
 
 type Section = "home" | "book" | "music" | "donate";
@@ -21,7 +23,9 @@ function sectionFor(pathname: string): Section | undefined {
   if (pathname === "/donate") return "donate";
 }
 
-export default function SiteHeader() {
+export default function SiteHeader({ live }: { live: boolean }) {
+  const ended = useLiveEnded();
+  const showLive = live && !ended;
   const current = sectionFor(usePathname());
   const [open, setOpen] = useState(false);
   const toggleRef = useRef<HTMLButtonElement>(null);
@@ -76,6 +80,13 @@ export default function SiteHeader() {
             Tributes <span aria-hidden="true" className="ext">↗</span>
             <span className="visually-hidden">(ForeverMissed, opens in a new tab)</span>
           </a>
+          {showLive && (
+            <a className="nav-live is-live" href={LIVESTREAM.url} target="_blank" rel="noopener">
+              <span className="live-dot" aria-hidden="true" />
+              {LIVESTREAM.cta}
+              <span className="visually-hidden">(YouTube, opens in a new tab)</span>
+            </a>
+          )}
           {/* Opens the Donate panel (DonateDialog); /donate without JavaScript. */}
           <a className="button" href="/donate" data-donate aria-current={current === "donate" ? "page" : undefined}>
             Donate
