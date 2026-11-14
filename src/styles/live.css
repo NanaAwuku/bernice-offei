@@ -183,8 +183,14 @@
   /* the book sits beside the two buttons */
   .hero-live .hero-copy.has-book {
     grid-template-columns: 104px minmax(0, 1fr); column-gap: 18px; max-width: none;
-    grid-template-areas: "title title" "dates dates" "msg msg" "book actions";
+    grid-template-areas: "msg msg" "book actions";
   }
+  /* Name and dates stay for screen readers only; the video gets the space. */
+  .hero-live h1, .hero-live .dates {
+    position: absolute; width: 1px; height: 1px; margin: 0; padding: 0;
+    overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  }
+  .hero-live .hero-message { margin-top: 0; }
   .has-book .book-preview { align-self: end; }
   .has-book .live-actions { flex-direction: column; }
   /* keep both labels on one line */
