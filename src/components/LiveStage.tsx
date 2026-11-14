@@ -99,7 +99,7 @@ export default function LiveStage() {
         <button
           type="button"
           className="live-stage-toggle"
-          hidden={failed}
+          hidden={failed || !hydrated}
           aria-label={playing ? "Pause the background preview" : "Play the background preview"}
           onClick={toggle}
         >
