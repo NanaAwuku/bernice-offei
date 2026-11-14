@@ -16,8 +16,7 @@
   ],
   "_donationNote": "The checkout provider only allows embedding on the hosts in its frame-ancestors policy (currently https://www.berniceoffei.com). On any other host (previews, localhost) Donate opens the hosted checkout in a new tab instead.",
   "livestream": {
-    "_readme": "Funeral livestream on the home page hero and in the header. status \"live\" shows it until the broadcast ends, then the site returns to the portrait hero on its own (in the browser via the YouTube player; on the server too when YOUTUBE_API_KEY is set). Set status to \"off\" afterwards to remove it for good.",
-    "status": "live",
+    "_readme": "Funeral livestream, always shown behind the home page hero and linked from the header (\"Watch Live\" opens it on YouTube in a new tab).",
     "title": "Funeral Service of the late Bernice Ofeibea Offei",
     "youtubeId": "AzisO6csp9s",
     "url": "https://www.youtube.com/live/AzisO6csp9s"

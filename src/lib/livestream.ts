@@ -1,15 +1,17 @@
 import { site } from "./site";
 
-// The funeral livestream (src/content/site.json → livestream). With status "live"
-// the home hero shows the stream until the broadcast ends, then returns to the
-// portrait (see live-state.ts and livestream-status.ts). "off" removes it.
+// The funeral livestream (src/content/site.json → livestream): always shown behind
+// the home hero (LiveStage) and linked from the header and "Watch Live".
 const config = site.livestream;
+
+// The original portrait hero (her photo, "In loving memory") is kept in the home
+// page but hidden. Set to true to show it again instead of the stream.
+export const SHOW_PORTRAIT_HERO = false;
 
 export const LIVESTREAM = {
   title: config.title,
   youtubeId: config.youtubeId,
   url: config.url,
-  enabled: config.status === "live",
   cta: "Watch Live",
 };
 

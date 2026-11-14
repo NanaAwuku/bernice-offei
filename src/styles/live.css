@@ -1,6 +1,6 @@
 /*
   Funeral livestream: the home hero's live backdrop (LiveStage) and the header
-  link. They give way to the portrait hero once the broadcast ends. Turned on/off from site.json → livestream.
+  link. The stream is set in site.json → livestream.
 */
 :root { --live-red: #e5484d; }
 

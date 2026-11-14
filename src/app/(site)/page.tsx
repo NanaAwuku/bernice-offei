@@ -6,16 +6,14 @@ import cover from "@/assets/photos/memorial-book-cover.jpg";
 import FeaturedRecording from "@/components/FeaturedRecording";
 import { bookIcon, playIcon } from "@/components/icons";
 import LiveStage from "@/components/LiveStage";
-import LiveSwitch from "@/components/LiveSwitch";
 import { PDF_SIZE, PDF_URL, SHOW_MEMORIAL_BOOK } from "@/lib/book";
-import { LIVESTREAM } from "@/lib/livestream";
-import { showLivestream } from "@/lib/livestream-status";
+import { LIVESTREAM, SHOW_PORTRAIT_HERO } from "@/lib/livestream";
 import { pageMetadata } from "@/lib/metadata";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = pageMetadata({ path: "/" });
 
-export default async function Home() {
+export default function Home() {
   const photo = (
     <Image
       className="hero-photo"
@@ -39,6 +37,7 @@ export default async function Home() {
     </>
   );
 
+  // Hidden (kept for later): the original portrait hero. See SHOW_PORTRAIT_HERO.
   const portraitHero = (
     <section id="home" className="hero" aria-labelledby="hero-title">
       {photo}
@@ -67,29 +66,26 @@ export default async function Home() {
     </section>
   );
 
-  // While the funeral is streaming: the stream plays behind the copy. Once it
-  // ends, LiveSwitch puts the portrait hero back (see lib/live-state.ts).
+  // The hero: the stream plays behind the copy, with the memorial book beside it.
   const liveHero = (
     <section id="home" className="hero hero-live" aria-labelledby="hero-title">
       <LiveStage />
       <div className="wrap">
-        <div className={SHOW_MEMORIAL_BOOK ? "hero-copy has-book" : "hero-copy"}>
-          {SHOW_MEMORIAL_BOOK && (
-            // The book's first page (its cover); opens the reader there.
-            <Link className="book-preview" href="/memorial-book#page/1">
-              <span className="book-preview-cover">
-                <Image
-                  src="/book/pages/page-001-700.webp"
-                  width={700}
-                  height={990}
-                  alt=""
-                  sizes="(max-width: 720px) 110px, (min-width: 1900px) 260px, 220px"
-                  loading="eager"
-                />
-              </span>
-              <span className="visually-hidden">The Memorial Book: open it at the first page</span>
-            </Link>
-          )}
+        <div className="hero-copy has-book">
+          {/* The book's first page (its cover); opens the reader there. */}
+          <Link className="book-preview" href="/memorial-book#page/1">
+            <span className="book-preview-cover">
+              <Image
+                src="/book/pages/page-001-700.webp"
+                width={700}
+                height={990}
+                alt=""
+                sizes="(max-width: 720px) 110px, (min-width: 1900px) 260px, 220px"
+                loading="eager"
+              />
+            </span>
+            <span className="visually-hidden">The Memorial Book: open it at the first page</span>
+          </Link>
           {name}
           <p className="hero-message">Join us, wherever you are, as we celebrate her life and lay her to rest.</p>
           <div className="actions live-actions">
@@ -98,18 +94,12 @@ export default async function Home() {
               {LIVESTREAM.cta}
               <span className="visually-hidden">(YouTube, opens in a new tab)</span>
             </a>
-            {SHOW_MEMORIAL_BOOK ? (
-              <Link className="button" href="/memorial-book">
-                {bookIcon}
-                <span>
-                  <span className="wide-only">Read the </span>Memorial Book
-                </span>
-              </Link>
-            ) : (
-              <Link className="button" href="/music">
-                Listen to Her Music
-              </Link>
-            )}
+            <Link className="button" href="/memorial-book">
+              {bookIcon}
+              <span>
+                <span className="wide-only">Read the </span>Memorial Book
+              </span>
+            </Link>
           </div>
         </div>
       </div>
@@ -118,7 +108,7 @@ export default async function Home() {
 
   return (
     <>
-      {(await showLivestream()) ? <LiveSwitch fallback={portraitHero}>{liveHero}</LiveSwitch> : portraitHero}
+      {SHOW_PORTRAIT_HERO ? portraitHero : liveHero}
 
       <div className="light">
         <section className="wrap intro" aria-labelledby="intro-title">

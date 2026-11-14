@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
-import { markLiveEnded, watchStream, type YTPlayer } from "@/lib/live-state";
+import { watchStream, type YTPlayer } from "@/lib/youtube-player";
 import { LIVESTREAM, previewEmbed } from "@/lib/livestream";
 import { pauseIcon, playIcon } from "./icons";
 
@@ -12,8 +12,8 @@ import { pauseIcon, playIcon } from "./icons";
 // steps aside after a while (no photo). The preview is decorative (inert); "Watch
 // Live" and the picture itself open the stream on YouTube in a new tab. Pause
 // freezes it on the current frame; visitors who prefer reduced motion get it
-// paused from the start. When the broadcast ends it flags it (markLiveEnded) and
-// the home page returns to the portrait hero.
+// paused from the start. If playback reaches the end it starts again, so the
+// video is always there.
 const REDUCED_MOTION = "(prefers-reduced-motion: reduce)";
 function subscribeMotion(onChange: () => void) {
   const query = matchMedia(REDUCED_MOTION);
@@ -50,7 +50,7 @@ export default function LiveStage() {
         setReady(false);
       },
       onNoApi: () => timers.push(setTimeout(reveal, 4000)), // can't tell: assume it plays
-      onEnded: markLiveEnded,
+      onEnded: () => playerRef.current?.playVideo?.(),
     });
     return () => {
       stop();
