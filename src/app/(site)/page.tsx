@@ -4,113 +4,54 @@ import Link from "next/link";
 import portrait from "@/assets/photos/bernice-portrait.jpeg";
 import cover from "@/assets/photos/memorial-book-cover.jpg";
 import FeaturedRecording from "@/components/FeaturedRecording";
-import { bookIcon, playIcon } from "@/components/icons";
-import LiveStage from "@/components/LiveStage";
-import MemorialStage from "@/components/MemorialStage";
 import { PDF_SIZE, PDF_URL, SHOW_MEMORIAL_BOOK } from "@/lib/book";
-import { LIVESTREAM, SHOW_LIVE_PREVIEW, SHOW_PORTRAIT_HERO } from "@/lib/livestream";
 import { pageMetadata } from "@/lib/metadata";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = pageMetadata({ path: "/" });
 
 export default function Home() {
-  const photo = (
-    <Image
-      className="hero-photo"
-      src={portrait}
-      alt="Bernice Ofeibea Offei smiling"
-      sizes="(max-width: 720px) 100vw, (min-width: 1900px) 1390px, 1220px"
-      loading="eager"
-      fetchPriority="high"
-    />
-  );
-  const name = (
-    <>
-      <h1 id="hero-title">
-        Bernice
-        <br />
-        Ofeibea Offei
-      </h1>
-      <p className="dates">
-        <time dateTime="1963-02-25">{site.born}</time> – <time dateTime="2026-09-12">{site.died}</time>
-      </p>
-    </>
-  );
-
-  // Hidden (kept for later): the original portrait hero. See SHOW_PORTRAIT_HERO.
-  const portraitHero = (
-    <section id="home" className="hero" aria-labelledby="hero-title">
-      {photo}
-      <div className="wrap">
-        <div className="hero-copy">
-          <p className="eyebrow">In loving memory</p>
-          {name}
-          <p className="hero-message">
-            A life of faith. A voice of hope.
-            <br />
-            Forever in our hearts.
-          </p>
-          <div className="actions">
-            {SHOW_MEMORIAL_BOOK && (
-              <Link className="button gold" href="/memorial-book">
-                Read the Memorial Book
-              </Link>
-            )}
-            {/* Becomes the primary (gold) button when the memorial book is hidden. */}
-            <Link className={SHOW_MEMORIAL_BOOK ? "button" : "button gold"} href="/music">
-              Listen to Her Music
-            </Link>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-
-  // The hero: her portrait (or, while live, the stream) behind the copy, with the
-  // memorial book beside it.
-  const liveHero = (
-    <section id="home" className="hero hero-live" aria-labelledby="hero-title">
-      {SHOW_LIVE_PREVIEW ? <LiveStage /> : <MemorialStage />}
-      <div className="wrap">
-        <div className="hero-copy has-book">
-          {/* The book's first page (its cover); opens the reader there. */}
-          <Link className="book-preview" href="/memorial-book#page/1">
-            <span className="book-preview-cover">
-              <Image
-                src="/book/pages/page-001-700.webp"
-                width={700}
-                height={990}
-                alt=""
-                sizes="(max-width: 720px) 110px, (min-width: 1900px) 260px, 220px"
-                loading="eager"
-              />
-            </span>
-            <span className="visually-hidden">The Memorial Book: open it at the first page</span>
-          </Link>
-          {name}
-          <p className="hero-message">Join us, wherever you are, as we celebrate her life and lay her to rest.</p>
-          <div className="actions live-actions">
-            <a className="button gold" href={LIVESTREAM.url} target="_blank" rel="noopener">
-              {playIcon}
-              {LIVESTREAM.cta}
-              <span className="visually-hidden">: watch the funeral service (YouTube, opens in a new tab)</span>
-            </a>
-            <Link className="button" href="/memorial-book">
-              {bookIcon}
-              <span>
-                <span className="wide-only">Read the </span>Memorial Book
-              </span>
-            </Link>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-
   return (
     <>
-      {SHOW_PORTRAIT_HERO ? portraitHero : liveHero}
+      <section id="home" className="hero" aria-labelledby="hero-title">
+        <Image
+          className="hero-photo"
+          src={portrait}
+          alt="Bernice Ofeibea Offei smiling"
+          sizes="(max-width: 720px) 100vw, (min-width: 1900px) 1390px, 1220px"
+          loading="eager"
+          fetchPriority="high"
+        />
+        <div className="wrap">
+          <div className="hero-copy">
+            <p className="eyebrow">In loving memory</p>
+            <h1 id="hero-title">
+              Bernice
+              <br />
+              Ofeibea Offei
+            </h1>
+            <p className="dates">
+              <time dateTime="1963-02-25">{site.born}</time> – <time dateTime="2026-09-12">{site.died}</time>
+            </p>
+            <p className="hero-message">
+              A life of faith. A voice of hope.
+              <br />
+              Forever in our hearts.
+            </p>
+            <div className="actions">
+              {SHOW_MEMORIAL_BOOK && (
+                <Link className="button gold" href="/memorial-book">
+                  Read the Memorial Book
+                </Link>
+              )}
+              {/* Becomes the primary (gold) button when the memorial book is hidden. */}
+              <Link className={SHOW_MEMORIAL_BOOK ? "button" : "button gold"} href="/music">
+                Listen to Her Music
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <div className="light">
         <section className="wrap intro" aria-labelledby="intro-title">

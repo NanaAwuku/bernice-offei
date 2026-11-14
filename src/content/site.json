@@ -14,11 +14,5 @@
   "donationEmbedHosts": [
     "www.berniceoffei.com"
   ],
-  "_donationNote": "The checkout provider only allows embedding on the hosts in its frame-ancestors policy (currently https://www.berniceoffei.com). On any other host (previews, localhost) Donate opens the hosted checkout in a new tab instead.",
-  "livestream": {
-    "_readme": "Funeral service recording on YouTube, linked from the header and the home page hero (\"Celebration of Life\" opens it in a new tab). Her portrait now shows behind the hero; the muted live preview can be brought back with SHOW_LIVE_PREVIEW in src/lib/livestream.ts.",
-    "title": "Funeral Service of the late Bernice Ofeibea Offei",
-    "youtubeId": "AzisO6csp9s",
-    "url": "https://www.youtube.com/live/AzisO6csp9s"
-  }
+  "_donationNote": "The checkout provider only allows embedding on the hosts in its frame-ancestors policy (currently https://www.berniceoffei.com). On any other host (previews, localhost) Donate opens the hosted checkout in a new tab instead."
 }
