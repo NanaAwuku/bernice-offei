@@ -183,14 +183,11 @@
   /* the book sits beside the two buttons */
   .hero-live .hero-copy.has-book {
     grid-template-columns: 104px minmax(0, 1fr); column-gap: 18px; max-width: none;
-    grid-template-areas: "msg msg" "book actions";
+    grid-template-areas: "title title" "dates dates" "msg msg" "book actions";
   }
-  /* Name and dates stay for screen readers only; the video gets the space. */
-  .hero-live h1, .hero-live .dates {
-    position: absolute; width: 1px; height: 1px; margin: 0; padding: 0;
-    overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
-  }
-  .hero-live .hero-message { margin-top: 0; }
+  /* Name and dates above the message, sized to leave the picture room. */
+  .hero-live h1 { font-size: clamp(42px, 12.5vw, 68px); margin: 0 0 12px; }
+  .hero-live .hero-message { margin-top: 20px; }
   .has-book .book-preview { align-self: end; }
   .has-book .live-actions { flex-direction: column; }
   /* keep both labels on one line */
@@ -214,4 +211,35 @@
 .live-stage-link:hover { color: var(--soft); text-decoration: underline; text-underline-offset: 4px; }
 @media (max-width: 720px), (max-width: 1100px) and (max-aspect-ratio: 4/5) {
   .live-stage-note.live-stage-link { display: inline-flex; padding: 4px 10px; }
+}
+
+/* Her portrait where the stream used to play (MemorialStage). It sits to the
+   right of the copy and fades into the veil; on phones it fills the hero. */
+.live-photo {
+  position: absolute; top: 0; right: 0; bottom: 0; left: 22%; z-index: 1;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 22%); mask-image: linear-gradient(90deg, transparent, #000 22%);
+  animation: photo-settle 2.4s cubic-bezier(.2, .7, .2, 1) both;
+}
+.live-photo img { object-fit: cover; object-position: 62% 38%; filter: saturate(.9); }
+@keyframes photo-settle { from { opacity: 0; transform: scale(1.05); } }
+@media (max-width: 1000px) and (min-width: 721px) {
+  .live-photo { left: 30%; }
+}
+@media (max-width: 720px), (max-width: 1100px) and (max-aspect-ratio: 4/5) {
+  /* her whole face above the name, fading into the copy below */
+  .live-photo {
+    left: 0; bottom: 36%;
+    -webkit-mask-image: linear-gradient(180deg, #000 72%, transparent); mask-image: linear-gradient(180deg, #000 72%, transparent);
+  }
+  .live-photo img { object-position: 58% 40%; }
+}
+
+/* Narrow tablets: keep the header on one line now "Celebration of Life" is longer
+   (the wordmark links home, so "Home" steps aside here). */
+@media (max-width: 900px) and (min-width: 721px) {
+  .header-inner { gap: 20px; }
+  .wordmark { font-size: 26px; }
+  .nav { gap: 13px; }
+  .nav a { white-space: nowrap; }
+  .nav a[href="/"], .nav .nav-live .live-dot { display: none; }
 }

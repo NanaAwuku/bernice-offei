@@ -6,8 +6,9 @@ import cover from "@/assets/photos/memorial-book-cover.jpg";
 import FeaturedRecording from "@/components/FeaturedRecording";
 import { bookIcon, playIcon } from "@/components/icons";
 import LiveStage from "@/components/LiveStage";
+import MemorialStage from "@/components/MemorialStage";
 import { PDF_SIZE, PDF_URL, SHOW_MEMORIAL_BOOK } from "@/lib/book";
-import { LIVESTREAM, SHOW_PORTRAIT_HERO } from "@/lib/livestream";
+import { LIVESTREAM, SHOW_LIVE_PREVIEW, SHOW_PORTRAIT_HERO } from "@/lib/livestream";
 import { pageMetadata } from "@/lib/metadata";
 import { site } from "@/lib/site";
 
@@ -66,10 +67,11 @@ export default function Home() {
     </section>
   );
 
-  // The hero: the stream plays behind the copy, with the memorial book beside it.
+  // The hero: her portrait (or, while live, the stream) behind the copy, with the
+  // memorial book beside it.
   const liveHero = (
     <section id="home" className="hero hero-live" aria-labelledby="hero-title">
-      <LiveStage />
+      {SHOW_LIVE_PREVIEW ? <LiveStage /> : <MemorialStage />}
       <div className="wrap">
         <div className="hero-copy has-book">
           {/* The book's first page (its cover); opens the reader there. */}
@@ -92,7 +94,7 @@ export default function Home() {
             <a className="button gold" href={LIVESTREAM.url} target="_blank" rel="noopener">
               {playIcon}
               {LIVESTREAM.cta}
-              <span className="visually-hidden">(YouTube, opens in a new tab)</span>
+              <span className="visually-hidden">: watch the funeral service (YouTube, opens in a new tab)</span>
             </a>
             <Link className="button" href="/memorial-book">
               {bookIcon}

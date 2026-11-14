@@ -8,11 +8,15 @@ const config = site.livestream;
 // page but hidden. Set to true to show it again instead of the stream.
 export const SHOW_PORTRAIT_HERO = false;
 
+// The muted live preview behind the hero (LiveStage) is kept but hidden: her
+// portrait (MemorialStage) is shown there instead. Set to true to bring it back.
+export const SHOW_LIVE_PREVIEW = false;
+
 export const LIVESTREAM = {
   title: config.title,
   youtubeId: config.youtubeId,
   url: config.url,
-  cta: "Watch Live",
+  cta: "Celebration of Life",
 };
 
 // enablejsapi lets the YouTube IFrame API report when the broadcast ends.

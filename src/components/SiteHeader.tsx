@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { SHOW_MEMORIAL_BOOK } from "@/lib/book";
-import { LIVESTREAM } from "@/lib/livestream";
+import { LIVESTREAM, SHOW_LIVE_PREVIEW } from "@/lib/livestream";
 import { site } from "@/lib/site";
 
 type Section = "home" | "book" | "music" | "donate";
@@ -77,10 +77,10 @@ export default function SiteHeader() {
             Tributes <span aria-hidden="true" className="ext">↗</span>
             <span className="visually-hidden">(ForeverMissed, opens in a new tab)</span>
           </a>
-          <a className="nav-live is-live" href={LIVESTREAM.url} target="_blank" rel="noopener">
+          <a className={SHOW_LIVE_PREVIEW ? "nav-live is-live" : "nav-live"} href={LIVESTREAM.url} target="_blank" rel="noopener">
             <span className="live-dot" aria-hidden="true" />
             {LIVESTREAM.cta}
-            <span className="visually-hidden">(YouTube, opens in a new tab)</span>
+            <span className="visually-hidden">: watch the funeral service (YouTube, opens in a new tab)</span>
           </a>
           {/* Opens the Donate panel (DonateDialog); /donate without JavaScript. */}
           <a className="button" href="/donate" data-donate aria-current={current === "donate" ? "page" : undefined}>
