@@ -6,7 +6,7 @@
     "note": "Card or Mobile Money"
   },
   "direct": [
-    { "label": "Mobile Money", "value": "054 431 6169", "copy": "0544316169" },
+    { "label": "Mobile Money", "value": "055 921 3993", "copy": "0559213993", "detail": "KKO Solusions | Logistics" },
     { "label": "Short code", "value": "*887*500#", "copy": "*887*500#", "dial": true },
     { "label": "GCB Bank", "value": "1031120008097", "copy": "1031120008097", "detail": "Legon branch · SWIFT GHCBGHAC" }
   ],

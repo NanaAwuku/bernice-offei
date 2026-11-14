@@ -14,7 +14,7 @@ export const metadata: Metadata = pageMetadata({
 });
 
 export default function ReaderPage() {
-  if (!SHOW_MEMORIAL_BOOK) notFound(); // hidden for now (src/lib/book.ts)
+  if (!SHOW_MEMORIAL_BOOK) notFound(); // toggle in src/lib/book.ts
   preload("/book/pages/page-001-700.webp", { as: "image" });
   return (
     <main id="main">

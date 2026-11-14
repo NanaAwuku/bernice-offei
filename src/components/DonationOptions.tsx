@@ -90,7 +90,7 @@ export default function DonationOptions() {
       </ul>
 
       <p className="give-name">
-        All in the name of <strong>{d.accountName}</strong>
+        Other options in the name of <strong>{d.accountName}</strong>
       </p>
       <p className="visually-hidden" aria-live="polite">
         {status}

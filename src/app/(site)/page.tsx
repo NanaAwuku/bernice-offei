@@ -44,7 +44,7 @@ export default function Home() {
                   Read the Memorial Book
                 </Link>
               )}
-              {/* The primary (gold) button while the memorial book is hidden. */}
+              {/* Becomes the primary (gold) button when the memorial book is hidden. */}
               <Link className={SHOW_MEMORIAL_BOOK ? "button" : "button gold"} href="/music">
                 Listen to Her Music
               </Link>
