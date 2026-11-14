@@ -93,9 +93,17 @@ export default function LiveStage() {
           <span className="live-dot" aria-hidden="true" />
           Live
         </span>
-        <span className="live-stage-note" aria-hidden="true">
-          {failed ? "Watch on YouTube" : !ready ? "Connecting…" : playing ? "Muted preview" : "Preview paused"}
-        </span>
+        {failed ? (
+          // The preview can't play here: offer the stream itself.
+          <a className="live-stage-note live-stage-link" href={LIVESTREAM.url} target="_blank" rel="noopener">
+            Watch on YouTube <span aria-hidden="true">↗</span>
+            <span className="visually-hidden">(opens in a new tab)</span>
+          </a>
+        ) : (
+          <span className="live-stage-note" aria-hidden="true">
+            {!ready ? "Connecting…" : playing ? "Muted preview" : "Preview paused"}
+          </span>
+        )}
         <button
           type="button"
           className="live-stage-toggle"

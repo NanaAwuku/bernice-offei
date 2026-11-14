@@ -208,3 +208,10 @@
 }
 
 .live-stage-toggle[hidden] { display: none; }
+
+/* "Watch on YouTube" when the preview can't play here (shown on phones too). */
+.live-stage-link { display: inline-flex; gap: 5px; padding: 6px 12px 6px 12px; margin-right: 2px; color: var(--ivory); text-decoration: none; }
+.live-stage-link:hover { color: var(--soft); text-decoration: underline; text-underline-offset: 4px; }
+@media (max-width: 720px), (max-width: 1100px) and (max-aspect-ratio: 4/5) {
+  .live-stage-note.live-stage-link { display: inline-flex; padding: 4px 10px; }
+}
